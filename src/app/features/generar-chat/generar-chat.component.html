@@ -21,28 +21,31 @@
    
 
     <!-- LISTA DE MENSAJES: apariencia minimal, misma lógica -->
-    <div class="px-4 sm:px-10 pb-10">
-      <div class="mx-auto max-w-3xl space-y-3">
-        <div *ngFor="let msg of messages" 
-             class="flex"
-             [ngClass]="{'justify-start': msg.sender === 'bot', 'justify-end': msg.sender === 'user'}">
-          <div
-            class="max-w-[80%] rounded-2xl px-4 py-2 shadow-sm ring-1 backdrop-blur
-                   text-sm sm:text-base"
-            [ngClass]="{
-              'bg-white/70 text-gray-800 ring-gray-200': msg.sender === 'user',
-              'bg-white/60 text-gray-700 ring-gray-200': msg.sender === 'bot'
-            }">
-            <p class="leading-relaxed">{{ msg.text }}</p>
-            <p *ngIf="msg.isExercise" class="mt-1">
-              
-              <a (click)="openAR(msg.exerciseName!)"
-                 class="text-indigo-600 underline cursor-pointer">{{ msg.exerciseName }}</a>.
-            </p>
+    <div class="px-4 sm:px-10 pb-10 relative">
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
+          <div class="silhouette"></div>
+        </div>
+        <div class="mx-auto max-w-3xl space-y-3">
+          <div *ngFor="let msg of messages"
+               class="flex"
+               [ngClass]="{'justify-start': msg.sender === 'bot', 'justify-end': msg.sender === 'user'}">
+            <div
+              class="max-w-[80%] rounded-2xl px-4 py-2 shadow-sm ring-1 backdrop-blur
+                     text-sm sm:text-base"
+              [ngClass]="{
+                'bg-white/70 text-gray-800 ring-gray-200': msg.sender === 'user',
+                'bg-white/60 text-gray-700 ring-gray-200': msg.sender === 'bot'
+              }">
+              <p class="leading-relaxed">{{ msg.text }}</p>
+              <p *ngIf="msg.isExercise" class="mt-1">
+
+                <a (click)="openAR(msg.exerciseName!)"
+                   class="text-indigo-600 underline cursor-pointer">{{ msg.exerciseName }}</a>.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
     
    

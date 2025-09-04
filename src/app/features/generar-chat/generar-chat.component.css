@@ -2,4 +2,23 @@
     margin-left: 16rem; /* Ajusta el valor según el ancho de tu menú lateral */
     padding: 2rem;
   }
+
+.silhouette {
+  width: 60%;
+  max-width: 500px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(59,130,246,0.35), rgba(59,130,246,0.05) 60%, rgba(255,255,255,0) 80%);
+  filter: blur(80px);
+  animation: float 8s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(-10%);
+  }
+  to {
+    transform: translateY(10%);
+  }
+}
  
