@@ -56,7 +56,7 @@ export class ArViewerComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         tristeza: {
           image: '/imagenes/depresion1.png',
-          audio: '/assets/audio/depresion1.mp3'
+          audio: '/audio/depresion1.mp3'
         },
         estres: {
           image: '/imagenes/Estres.jpg',
