@@ -1,6 +1,7 @@
 .ar-container {
   text-align: center;
   margin-top: 20px;
+  background: linear-gradient(180deg, #dbeafe 0%, #ffffff 100%);
 }
 
 /* Asegurar que el canvas mantenga la proporción correcta */
@@ -10,7 +11,7 @@
 
 /* Optimizaciones para el viewer 360 */
 #viewer360 {
-  background-color: #000;
+  background: linear-gradient(135deg, #93c5fd 0%, #ffffff 100%);
 }
 
 /* Ocultar controles de MediaPipe si aparecen */
