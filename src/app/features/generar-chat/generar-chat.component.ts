@@ -27,6 +27,8 @@ export class GenerarChatComponent implements OnInit {
     { sender: 'bot', text: 'Hola, soy Emonical! ¿En qué puedo ayudarte?' }
   ];
 
+  private detectedEmotion: string | null = null;
+
   constructor(private generarChatService: GenerarChatService, private router: Router) {}
 
   ngOnInit(): void {}
@@ -35,6 +37,9 @@ export class GenerarChatComponent implements OnInit {
     if (this.prompt.trim()) {
       // Agregar mensaje del usuario al array de mensajes
       this.messages.push({ sender: 'user', text: this.prompt });
+
+      // Detectar emoción en el mensaje del usuario
+      this.detectedEmotion = this.detectEmotion(this.prompt);
 
       // Llamar al servicio para obtener la respuesta del bot
       this.generarChatService.getContent(this.prompt).subscribe(
@@ -67,8 +72,28 @@ export class GenerarChatComponent implements OnInit {
     return match ? match[1] : 'Ejercicio';
   }
 
+  // Detecta palabras clave para identificar emociones
+  private detectEmotion(text: string): string | null {
+    const lower = text.toLowerCase();
+    const sadness = ['triste', 'tristeza', 'deprimido', 'depresión', 'depresion'];
+    const anxiety = ['ansiedad', 'ansioso', 'ansiosa', 'miedo'];
+    const stress = ['estrés', 'estres', 'estresado', 'estresada', 'agobiado', 'agobiada'];
+
+    if (sadness.some(w => lower.includes(w))) {
+      return 'tristeza';
+    }
+    if (anxiety.some(w => lower.includes(w))) {
+      return 'ansiedad';
+    }
+    if (stress.some(w => lower.includes(w))) {
+      return 'estres';
+    }
+    return null;
+  }
+
   // Función para abrir el componente de AR
   openAR(exerciseName: string): void {
-    this.router.navigate(['/ar-viewer'], { queryParams: { exercise: exerciseName } });
+    const emotion = this.detectedEmotion || 'ansiedad';
+    this.router.navigate(['/ar-viewer'], { queryParams: { exercise: exerciseName, emotion } });
   }
 }
