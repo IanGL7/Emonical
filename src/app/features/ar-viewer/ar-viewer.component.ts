@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import * as THREE from 'three';
 
 declare var SelfieSegmentation: any;
@@ -15,6 +16,9 @@ export class ArViewerComponent implements OnInit, AfterViewInit, OnDestroy {
   private canvas!: HTMLCanvasElement;
   private ctx!: CanvasRenderingContext2D | null;
   private audio!: HTMLAudioElement;
+
+  private imageUrl = '/assets/imagenes/ansiedad1.png';
+  private audioUrl = '/assets/audio/Ansiedad1.mp3';
 
   private selfieSegmentation: any;
   private stream: MediaStream | null = null;
@@ -40,10 +44,35 @@ export class ArViewerComponent implements OnInit, AfterViewInit, OnDestroy {
   private unlockAudioBound?: () => void;
   public hideEnableButton = false; // para ocultar botón tras habilitar sonido
 
-  constructor(private location: Location) {}
+  constructor(private location: Location, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // No tocar DOM aquí
+    this.route.queryParamMap.subscribe(params => {
+      const emotion = (params.get('emotion') || '').toLowerCase();
+      const assets: Record<string, { image: string; audio: string }> = {
+        ansiedad: {
+          image: '/assets/imagenes/ansiedad1.png',
+          audio: '/assets/audio/Ansiedad1.mp3'
+        },
+        tristeza: {
+          image: '/assets/imagenes/depresion1.png',
+          audio: '/assets/audio/depresion1.mp3'
+        },
+        estres: {
+          image: '/assets/imagenes/Estres.jpg',
+          audio: '/assets/audio/estres1.mp3'
+        }
+      };
+
+      if (assets[emotion]) {
+        this.imageUrl = assets[emotion].image;
+        this.audioUrl = assets[emotion].audio;
+      } else {
+        // por defecto
+        this.imageUrl = assets['ansiedad'].image;
+        this.audioUrl = assets['ansiedad'].audio;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -73,10 +102,8 @@ export class ArViewerComponent implements OnInit, AfterViewInit, OnDestroy {
     // El canvas de segmentación NO debe bloquear drag/touch del 360
     this.canvas.style.pointerEvents = 'none';
 
-    // Configurar audio (ruta recomendada en Angular)
-    if (!this.audio.src) {
-      this.audio.src = '/audio/Ansiedad1.mp3';
-    }
+    // Configurar audio según la emoción detectada
+    this.audio.src = this.audioUrl;
     this.audio.loop = true;
     this.audio.preload = 'auto';
 
@@ -133,10 +160,9 @@ export class ArViewerComponent implements OnInit, AfterViewInit, OnDestroy {
     geometry.scale(-1, 1, 1);
 
     const loader = new THREE.TextureLoader();
-    const imageUrl = '/imagenes/img1.jpg'; // ¡importante! usar assets/...
 
     loader.load(
-      imageUrl,
+      this.imageUrl,
       (texture) => {
         texture.wrapS = THREE.RepeatWrapping;
         texture.repeat.x = -1; // invierte si lo ves al revés

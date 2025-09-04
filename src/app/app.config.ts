@@ -1,5 +1,6 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { A11yModule } from '@angular/cdk/a11y';
 
 import { routes } from './app.routes';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -10,6 +11,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
+    importProvidersFrom(A11yModule),
     provideFirebaseApp(() =>
       initializeApp({
         apiKey: "AIzaSyAzeVIIPJkxcuuavZHpCKu2uMPmkPw7nb0",
