@@ -17,8 +17,8 @@ export class ArViewerComponent implements OnInit, AfterViewInit, OnDestroy {
   private ctx!: CanvasRenderingContext2D | null;
   private audio!: HTMLAudioElement;
 
-  private imageUrl = '/assets/imagenes/ansiedad1.png';
-  private audioUrl = '/assets/audio/Ansiedad1.mp3';
+  private imageUrl = '/imagenes/ansiedad1.png';
+  private audioUrl = '/audio/Ansiedad1.mp3';
 
   private selfieSegmentation: any;
   private stream: MediaStream | null = null;
@@ -51,16 +51,16 @@ export class ArViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       const emotion = (params.get('emotion') || '').toLowerCase();
       const assets: Record<string, { image: string; audio: string }> = {
         ansiedad: {
-          image: '/assets/imagenes/ansiedad1.png',
-          audio: '/assets/audio/Ansiedad1.mp3'
+          image: '/imagenes/ansiedad1.png',
+          audio: '/audio/Ansiedad1.mp3'
         },
         tristeza: {
-          image: '/assets/imagenes/depresion1.png',
+          image: '/imagenes/depresion1.png',
           audio: '/assets/audio/depresion1.mp3'
         },
         estres: {
-          image: '/assets/imagenes/Estres.jpg',
-          audio: '/assets/audio/estres1.mp3'
+          image: '/imagenes/Estres.jpg',
+          audio: '/audio/estres1.mp3'
         }
       };
 
